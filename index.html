@@ -3,37 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kargo Takip</title>
+    <title>Kargo Takip Merkezi</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="card">
-        <div class="logo">LOGO</div>
-        <h1>Tüm kargolar tek ekranda – Kolayca takip edin</h1>
-        <div class="input-container">
-            <input type="text" id="tracking-number-input" placeholder="Takip numarasını girin">
-            <button id="track-button">Takip</button>
-        </div>
-        <p class="info-text">
-            Kargo numarasını girin, hangi firmaya ait olduğunu biz bulalım.
+    <div class="container">
+        <h1>Kargo Takip Merkezi</h1>
+        <form id="tracking-form">
+            <div class="form-group">
+                <label for="tracking-number">Takip Numarası:</label>
+                <input type="text" id="tracking-number" name="tracking-number" placeholder="Takip numarasını giriniz" required>
+            </div>
+            <div class="form-group">
+                <label for="cargo-company">Kargo Şirketi:</label>
+                <select id="cargo-company" name="cargo-company" required>
+                    <option value="" disabled selected>Lütfen bir kargo şirketi seçin</option>
+                    <option value="hepsijet">Hepsijet</option>
+                    <option value="mng">MNG Kargo</option>
+                    <option value="surat">Sürat Kargo</option>
+                    <option value="yurtici">Yurtiçi Kargo</option>
+                    <option value="aras">Aras Kargo</option>
+                    <option value="trendyol">Trendyol Express</option>
+                </select>
+            </div>
+            <button type="submit">Takip Et</button>
+        </form>
+        <p class="explanation">
+            Takip numaranızı ve kargo şirketinizi seçerek doğrudan ilgili kargo şirketinin takip sayfasına yönlendirileceksiniz.
         </p>
-
-        <div class="result-box" id="result-box" style="display:none;">
-            <div class="result-header">
-                <span class="result-logo">LOGO</span>
-                <span class="status"></span>
-                <span class="icon">✅</span>
-            </div>
-            <div class="timeline" id="timeline">
-                </div>
-            <div class="eta">
-                <span>Teslimat tahmini:</span>
-                <span class="eta-text"></span>
-            </div>
-        </div>
-        <div id="company-name" style="text-align:center; margin-top: 20px; font-weight: bold;"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.getElementById('tracking-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const trackingNumber = document.getElementById('tracking-number').value.trim();
+            const cargoCompany = document.getElementById('cargo-company').value;
+            let trackingUrl = '';
+
+            if (!trackingNumber || !cargoCompany) {
+                alert('Lütfen takip numarasını girin ve bir kargo şirketi seçin.');
+                return;
+            }
+
+            switch (cargoCompany) {
+                case 'hepsijet':
+                    trackingUrl = `https://www.hepsijet.com/gonderi-takibi/${trackingNumber}`;
+                    break;
+                case 'mng':
+                    trackingUrl = `https://www.mngkargo.com.tr/gonderi-takibi/?kargotakipno=${trackingNumber}`;
+                    break;
+                case 'surat':
+                    trackingUrl = `https://www.suratkargo.com.tr/kargo-takip/${trackingNumber}`;
+                    break;
+                case 'yurtici':
+                    trackingUrl = `https://www.yurticikargo.com/gonderi-takip?kargotakipno=${trackingNumber}`;
+                    break;
+                case 'aras':
+                    trackingUrl = `https://www.araskargo.com.tr/tr/gonderi-takip?takipNo=${trackingNumber}`;
+                    break;
+                case 'trendyol':
+                    trackingUrl = `https://www.trendyolexpress.com/gonderi-takip?kargoTakipNo=${trackingNumber}`;
+                    break;
+                default:
+                    alert('Geçersiz kargo şirketi seçimi.');
+                    return;
+            }
+
+            window.open(trackingUrl, '_blank');
+        });
+    </script>
 </body>
 </html>
