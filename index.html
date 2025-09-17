@@ -18,6 +18,7 @@
                 <label for="cargo-company">Kargo Şirketi:</label>
                 <select id="cargo-company" name="cargo-company" required>
                     <option value="" disabled selected>Lütfen bir kargo şirketi seçin</option>
+                    <option value="4tracking">4-Tracking</option>
                     <option value="hepsijet">Hepsijet</option>
                     <option value="mng">MNG Kargo</option>
                     <option value="surat">Sürat Kargo</option>
@@ -50,7 +51,7 @@
                 case 'hepsijet':
                     trackingUrl = `https://www.hepsijet.com/gonderi-takibi/${trackingNumber}`;
                     break;
-                    case '4-Tracking':
+                    case '4tracking':
                     trackingUrl = `https://www.4tracking.net/tr/tjax/track?nums=${trackingNumber}`;
                     break;
                 case 'mng':
